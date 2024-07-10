@@ -77,60 +77,66 @@ const App = () => {
   }
 
   return (
-    <section className='bg-background min-h-screen p-4'>
-      <Input value={value} isCopied={isCopied} handleCopy={handleCopy} />
-      <Strength level={strength} />
-
-      <div className='my-4 w-96'>
-        <div className='flex items-center justify-between mb-4'>
-          <Label htmlFor='upper'>Include Uppercase Letters</Label>
-          <Switch
-            id='upper'
-            checked={generationData.upper}
-            onCheckedChange={(checked) => handleSwitchChange('upper', checked)}
-          />
+    <section className='bg-background min-h-screen p-4 flex items-center justify-center'>
+      <div className='w-[600px] bg-muted flex items-center justify-center flex-col py-6 space-y-4'>
+        <Input value={value} isCopied={isCopied} handleCopy={handleCopy} />
+        <div className='my-4 w-96 p-5'>
+          <div className='flex items-center justify-between mb-4'>
+            <Label htmlFor='upper'>Include Uppercase Letters</Label>
+            <Switch
+              id='upper'
+              checked={generationData.upper}
+              onCheckedChange={(checked) =>
+                handleSwitchChange('upper', checked)
+              }
+            />
+          </div>
+          <div className='flex items-center justify-between mb-4'>
+            <Label htmlFor='lower'>Include Lowercase Letters</Label>
+            <Switch
+              id='lower'
+              checked={generationData.lower}
+              onCheckedChange={(checked) =>
+                handleSwitchChange('lower', checked)
+              }
+            />
+          </div>
+          <div className='flex items-center justify-between mb-4'>
+            <Label htmlFor='numbers'>Include Numbers</Label>
+            <Switch
+              id='numbers'
+              checked={generationData.numbers}
+              onCheckedChange={(checked) =>
+                handleSwitchChange('numbers', checked)
+              }
+            />
+          </div>
+          <div className='flex items-center justify-between mb-4'>
+            <Label htmlFor='special'>Include Special Characters</Label>
+            <Switch
+              id='special'
+              checked={generationData.special}
+              onCheckedChange={(checked) =>
+                handleSwitchChange('special', checked)
+              }
+            />
+          </div>
+          <div className='flex items-center justify-between mb-4'>
+            <Label htmlFor='length'>
+              Password Length ({generationData.length})
+            </Label>
+            <Slider
+              id='length'
+              value={[generationData.length]}
+              onValueChange={handleSliderChange}
+              min={5}
+              max={20}
+            />
+          </div>
         </div>
-        <div className='flex items-center justify-between mb-4'>
-          <Label htmlFor='lower'>Include Lowercase Letters</Label>
-          <Switch
-            id='lower'
-            checked={generationData.lower}
-            onCheckedChange={(checked) => handleSwitchChange('lower', checked)}
-          />
-        </div>
-        <div className='flex items-center justify-between mb-4'>
-          <Label htmlFor='numbers'>Include Numbers</Label>
-          <Switch
-            id='numbers'
-            checked={generationData.numbers}
-            onCheckedChange={(checked) =>
-              handleSwitchChange('numbers', checked)
-            }
-          />
-        </div>
-        <div className='flex items-center justify-between mb-4'>
-          <Label htmlFor='special'>Include Special Characters</Label>
-          <Switch
-            id='special'
-            checked={generationData.special}
-            onCheckedChange={(checked) =>
-              handleSwitchChange('special', checked)
-            }
-          />
-        </div>
-        <div className='flex items-center justify-between mb-4'>
-          <Label htmlFor='length'>Password Length</Label>
-          <Slider
-            id='length'
-            value={[generationData.length]}
-            onValueChange={handleSliderChange}
-            min={4}
-            max={20}
-          />
-        </div>
+        <Strength level={strength} />
+        <GenerateBtn onClick={handleGenerate} />
       </div>
-
-      <GenerateBtn onClick={handleGenerate} />
     </section>
   )
 }

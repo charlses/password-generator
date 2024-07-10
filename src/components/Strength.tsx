@@ -32,8 +32,8 @@ const Strength: React.FC<StrengthProps> = ({ level }) => {
   }
 
   return (
-    <div className='bg-muted max-w-96 p-6'>
-      <div className='h-12 flex items-center justify-between bg-background px-4'>
+    <div className='bg-muted w-96'>
+      <div className='h-12 flex items-center justify-between bg-background px-4 py-6'>
         <p className='text-muted-foreground'>STRENGTH</p>
         <div className='flex items-center gap-3'>
           <p className='font-semibold'>{level.toUpperCase()}</p>
