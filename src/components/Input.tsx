@@ -8,7 +8,7 @@ interface InputProps {
 
 const Input = ({ value, isCopied, handleCopy }: InputProps) => {
   return (
-    <div className='w-96 bg-muted flex items-center relative p-4'>
+    <div className='w-96 bg-muted flex items-center relative p-4 hover:text-foreground'>
       <input
         type='text'
         className='h-full px-4 py-2 text-lg font-semibold placeholder-gray-500 focus:outline-none bg-muted relative cursor-pointer '

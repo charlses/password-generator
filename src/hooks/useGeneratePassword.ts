@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 
 interface GeneratePasswordArgs {
   upper: boolean
@@ -8,7 +8,12 @@ interface GeneratePasswordArgs {
   length: number
 }
 
-export const useGeneratePassword = () => {
+const upperChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+const lowerChars = 'abcdefghijklmnopqrstuvwxyz'
+const numberChars = '0123456789'
+const specialChars = '!@#$%^&*()_+[]{}|;:,.<>?'
+
+export const useGeneratePassword = (initialArgs?: GeneratePasswordArgs) => {
   const [password, setPassword] = useState('')
 
   const generatePassword = ({
@@ -18,30 +23,35 @@ export const useGeneratePassword = () => {
     special,
     length
   }: GeneratePasswordArgs) => {
-    const upperChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
-    const lowerChars = 'abcdefghijklmnopqrstuvwxyz'
-    const numberChars = '0123456789'
-    const specialChars = '!@#$%^&*()_+[]{}|;:,.<>?'
+    const allChars = [
+      upper && upperChars,
+      lower && lowerChars,
+      numbers && numberChars,
+      special && specialChars
+    ]
+      .filter(Boolean)
+      .join('')
 
-    let allChars = ''
-    if (upper) allChars += upperChars
-    if (lower) allChars += lowerChars
-    if (numbers) allChars += numberChars
-    if (special) allChars += specialChars
-
-    if (allChars.length === 0) {
+    if (!allChars) {
       setPassword('')
       return
     }
 
-    let generatedPassword = ''
-    for (let i = 0; i < length; i++) {
-      const randomIndex = Math.floor(Math.random() * allChars.length)
-      generatedPassword += allChars[randomIndex]
-    }
+    const generatedPassword = Array.from({ length }, () => {
+      const randomIndex =
+        crypto.getRandomValues(new Uint32Array(1))[0] % allChars.length
+      return allChars[randomIndex]
+    }).join('')
 
     setPassword(generatedPassword)
   }
+
+  // Generate initial password if initialArgs are provided
+  useMemo(() => {
+    if (initialArgs) {
+      generatePassword(initialArgs)
+    }
+  }, [initialArgs])
 
   return { generatePassword, password }
 }
